@@ -25,7 +25,7 @@ def ler_xml_carioca(nota):
     return resultados
     
     
-    def ler_xml_danfe(nota):
+def ler_xml_danfe(nota):
     import xmltodict
     import pprint
     #abrir o arquivo, ler o arquivo e fechar o arquivo
