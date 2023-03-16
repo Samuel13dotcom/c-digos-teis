@@ -1,0 +1,65 @@
+def ler_xml_carioca(nota):
+    import xmltodict 
+    import pprint
+    #abrir o arquivo, ler o arquivo e fechar o arquivo
+    with open(nota,'rb') as arquivo_xml:
+        documento = xmltodict.parse(arquivo_xml)
+
+    dict_nota_carioca = documento['ConsultarNfseResposta']['ListaNfse']['CompNfse']['Nfse']['InfNfse']
+        #valor_total, produtos/serviços (valores), cnpj_vendeu, nome_vendeu, cpf/cnpj_comprou, nome_comprou
+    valor_total = dict_nota_carioca['Servico']['Valores']['ValorServicos']
+    cnpj_vendeu = dict_nota_carioca['PrestadorServico']['IdentificacaoPrestador']['Cnpj']
+    nome_vendeu = dict_nota_carioca['PrestadorServico']['RazaoSocial']
+    cnpj_comprou = dict_nota_carioca['TomadorServico']['IdentificacaoTomador']['CpfCnpj']['Cnpj']
+    nome_comprou = dict_nota_carioca['TomadorServico']['RazaoSocial']
+    serviços = dict_nota_carioca['Servico']['Discriminacao']
+
+    resultados = {
+        'Valor total': valor_total,
+        'CNPJ do Vendedor': cnpj_vendeu,
+        'Nome do Vendedor': nome_vendeu,
+        'CNPJ do comprador': cnpj_comprou,
+        'Nome do comprador': nome_comprou,
+        'Serviços': serviços
+    }
+    return resultados
+    
+    
+    def ler_xml_danfe(nota):
+    import xmltodict
+    import pprint
+    #abrir o arquivo, ler o arquivo e fechar o arquivo
+    with open(nota,'rb') as arquivo_xml:
+        documento = xmltodict.parse(arquivo_xml)
+
+    #definir o caminho principal que iremos usar para pegar outros valores
+    dict_nota_fiscal = documento['nfeProc']['NFe']['infNFe']
+    #pprint(dict_nota_fiscal)
+
+    #valor_total, produtos/serviços (valores), cnpj_vendeu, nome_vendeu, cpf/cnpj_comprou, nome_comprou
+    valor_total = dict_nota_fiscal['total']['ICMSTot']['vNF']
+    cnpj_vendeu = dict_nota_fiscal['emit']['CNPJ']
+    nome_vendeu = dict_nota_fiscal['emit']['xNome']
+    cpf_comprou = dict_nota_fiscal['dest']['CPF']
+    nome_comprou = dict_nota_fiscal['dest']['xNome']
+
+
+
+    lista_produtos = dict_nota_fiscal['det']
+    nome_e_valor = []
+
+    for dicionários in lista_produtos:
+        nome_produtos = dicionários['prod']['xProd']
+        valor_produtos = dicionários['prod']['vProd']
+        nome_e_valor.append((nome_produtos, valor_produtos))
+
+    valores = {
+            'Valor Total': [valor_total],
+            'CNPJ do Vendedor': [cnpj_vendeu],
+            'Nome do Vendedor': [nome_vendeu],
+            'CPF do Comprador': [cpf_comprou],
+            'Nome do Comprador': [nome_comprou],
+            'Nome do Produto e Valor': [nome_e_valor]
+        }
+    
+    return valores
