@@ -1,0 +1,61 @@
+-- Alias: Apelido para coluna ou tabela
+SELECT * FROM jobs j;
+-- Estamos dando j como apelido da tabela jobs
+
+-- Operador ||
+SELECT 
+    first_name,
+    last_name,
+    first_name || ' ' || last_name nome_completo -- apelido
+FROM employees;
+
+-- Faça uma consulta que retorne a lista de funcionários e seus respectivos gerentes
+-- resolução do problema da string q'[string]'
+SELECT
+    first_name,
+    last_name,
+    manager_id,
+    first_name || ' ' || last_name || q'[. Employee's Manager ID: ]' || manager_id "ID do Gerente do Funcionário"
+FROM employees;
+
+-- Adicione um bônus de R$100 aos salários de todos os funcionários
+SELECT
+    salary + 100 "Salário com bônus"
+FROM employees;
+
+-- Adicione um bônus de 25% do salário para todos os funcionários
+SELECT
+    salary * 1.25 "Salário com bônus de 25%",
+    salary * 0.25 Bônus,
+    salary
+FROM employees;
+
+
+-- DISTINCT: Retornando valores distintos da tabela
+-- Qual o número total de departamentos? Faça esta análise em cima da tabela Employees
+SELECT DISTINCT department_id FROM employees;
+
+
+-- a) Faça uma ordenação na tabela EMPLOYEES para visualizar os funcionários do menor para o maior salário 
+-- ORDER BY: Comando que ordena em ordem crescente ou decrescente
+SELECT * FROM employees ORDER BY salary; -- Padrão: ASC
+
+
+-- b) Faça uma ordenação na tabela EMPLOYEES para visualizar os funcionários do maior para o menor salário
+SELECT * FROM employees ORDER BY salary DESC;
+
+
+-- a) Ordene a tabela de EMPLOYEES para mostrar os funcionários em ordem alfabética
+SELECT * FROM employees ORDER BY first_name, last_name;
+
+-- b) Ordene a tabela de EMPLOYEES para mostrar os funcionários em ordem "anti-alfabética"
+SELECT * FROM employees ORDER BY first_name DESC, last_name DESC;
+
+
+/* a) Ordene a tabela de EMPLOYEES para mostrar os funcionários de acordo com a data de contratação: 
+do mais antigo para o mais recente. */
+SELECT * FROM employees ORDER BY hire_date;
+
+/* b) Ordene a tabela de EMPLOYEES para mostrar os funcionários de acordo com a data de contratação: 
+da mais recente para a mais antiga. */
+SELECT * FROM employees ORDER BY hire_date DESC;
